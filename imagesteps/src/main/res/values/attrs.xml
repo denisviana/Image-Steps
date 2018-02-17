@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="ImageStep">
+        <attr name="step_size" format="dimension" />
+        <attr name="default_color" format="color" />
+    </declare-styleable>
+
+</resources>
