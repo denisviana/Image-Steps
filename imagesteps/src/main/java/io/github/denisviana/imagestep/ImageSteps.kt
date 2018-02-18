@@ -206,10 +206,20 @@ class ImageSteps: RelativeLayout {
                 onPageListener?.onViewPagerPageSelected(position)
 
                 if(position > lastPosition) {
-                    nextStep()
+
+                    if (stepsImages.lastIndex == selectedStep) return
+                    selectedStep++
+
+                    goToStep(selectedStep)
+
                     lastPosition = position
+
                 }else if(position < lastPosition) {
-                    previousStep()
+
+                    if (selectedStep == START_STEP) return
+                    selectedStep--
+                    goToStep(selectedStep)
+
                     lastPosition = position
                 }
             }
