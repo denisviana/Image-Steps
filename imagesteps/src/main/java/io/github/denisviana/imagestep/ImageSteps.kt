@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.support.annotation.DrawableRes
+import android.support.v4.view.ViewPager
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,18 @@ class ImageSteps: RelativeLayout {
     private var selectedStep: Int = 0
     private var stepSize : Int = 0
     private var defaultColor: Int = 0
+    private var lastPosition : Int = 0
+    private var hasViewPager : Boolean = false
+
+    private var onPageListener : OnViewPagerChangeListener? = null
+
+    private lateinit var viewPager : ViewPager
+
+    var animationDuration : Long = 500
+    var scaleUp = 2.0f
+
+    private val START_STEP = 0
+
 
     constructor(context: Context?) : super(context){
         init()
@@ -105,28 +118,28 @@ class ImageSteps: RelativeLayout {
             stepNumber++
         }
         //get to the 1st step
-        goToStep(0)
+        goToStep(START_STEP)
     }
 
     fun nextStep() {
-        if (stepsImages.lastIndex == selectedStep) return
+        if (stepsImages.lastIndex == selectedStep || hasViewPager) return
         selectedStep++
         goToStep(selectedStep)
     }
 
 
     fun previousStep() {
-        if (selectedStep == 0) return
+        if (selectedStep == START_STEP || hasViewPager) return
         selectedStep--
         goToStep(selectedStep)
     }
 
 
-    fun goToStep(stepNumber: Int) {
+    private fun goToStep(stepNumber: Int) {
 
         val stepView = rootView?.findViewWithTag<ImageView>(stepNumber)
 
-        for (i in 0 until stepsImages.lastIndex) {
+        for (i in START_STEP until stepsImages.lastIndex) {
             rootView?.findViewWithTag<ImageView>(i)?.setBackgroundResource(R.drawable.circle_step_view)
             setStepColorStatus(rootView?.findViewWithTag(i)!!)
         }
@@ -136,23 +149,23 @@ class ImageSteps: RelativeLayout {
 
         selectedStep = stepNumber
 
-        val scaleUpX = ObjectAnimator.ofFloat(stepView, "scaleX", 2.0f)
-        val scaleUpY = ObjectAnimator.ofFloat(stepView, "scaleY", 2.0f)
+        val scaleUpX = ObjectAnimator.ofFloat(stepView, "scaleX", scaleUp)
+        val scaleUpY = ObjectAnimator.ofFloat(stepView, "scaleY", scaleUp)
 
-        scaleUpX.duration = 1000
-        scaleUpY.duration = 1000
+        scaleUpX.duration = animationDuration
+        scaleUpY.duration = animationDuration
 
         val scaleUp = AnimatorSet()
         scaleUp.play(scaleUpX).with(scaleUpY)
         scaleUp.start()
 
-        if(stepNumber > 0){
+        if(stepNumber > START_STEP){
             val previousView = rootView?.findViewWithTag<ImageView>(stepNumber-1)
             previousView?.setImageDrawable(null)
             val scaleDownX = ObjectAnimator.ofFloat(previousView, "scaleX", 1.0f)
             val scaleDownY = ObjectAnimator.ofFloat(previousView, "scaleY", 1.0f)
-            scaleDownX.duration = 1000
-            scaleDownY.duration = 1000
+            scaleDownX.duration = animationDuration
+            scaleDownY.duration = animationDuration
             val scaleDown = AnimatorSet()
             scaleDown.play(scaleDownX).with(scaleDownY)
             scaleDown.start()
@@ -163,8 +176,8 @@ class ImageSteps: RelativeLayout {
             nextView?.setImageDrawable(null)
             val scaleDownX = ObjectAnimator.ofFloat(nextView, "scaleX", 1.0f)
             val scaleDownY = ObjectAnimator.ofFloat(nextView, "scaleY", 1.0f)
-            scaleDownX.duration = 1000
-            scaleDownY.duration = 1000
+            scaleDownX.duration = animationDuration
+            scaleDownY.duration = animationDuration
             val scaleDown = AnimatorSet()
             scaleDown.play(scaleDownX).with(scaleDownY)
             scaleDown.start()
@@ -172,5 +185,47 @@ class ImageSteps: RelativeLayout {
 
         stepView?.setImageResource(stepsImages[stepNumber])
     }
+
+    fun setupWithViewPager(viewPager : ViewPager){
+
+        this.viewPager = viewPager
+
+        hasViewPager = true
+
+        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            override fun onPageScrollStateChanged(state: Int) {
+                onPageListener?.onViewPagerPageScrollStateChanged(state)
+            }
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+                onPageListener?.onViewPagerPageScrolled(position,positionOffset,positionOffsetPixels)
+            }
+
+            override fun onPageSelected(position: Int) {
+
+                onPageListener?.onViewPagerPageSelected(position)
+
+                if(position > lastPosition) {
+                    nextStep()
+                    lastPosition = position
+                }else if(position < lastPosition) {
+                    previousStep()
+                    lastPosition = position
+                }
+            }
+
+        })
+    }
+
+    fun setOnViewPagerChangeListener(listener : OnViewPagerChangeListener){
+        this.onPageListener = listener
+    }
+
+    interface OnViewPagerChangeListener{
+        fun onViewPagerPageScrollStateChanged(state: Int)
+        fun onViewPagerPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int)
+        fun onViewPagerPageSelected(position: Int)
+    }
+
 
 }
