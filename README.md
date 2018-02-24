@@ -7,10 +7,10 @@ A simple library for using steps with images and animation
 
 - Dependencie <br/>
 ``
-compile 'com.github.denisviana:Image-Steps:1.0.0'
+compile 'com.github.denisviana:Image-Steps:1.0.4'
 ``
 <br/><br/>
-- xml <br/>
+- **Xml** <br/>
 ``````
 <io.github.denisviana.imagestep.ImageSteps
         android:background="#913D88"
@@ -19,23 +19,47 @@ compile 'com.github.denisviana:Image-Steps:1.0.0'
         android:layout_height="150dp"
         app:default_color="#fff"/>
 ``````
-- kotlin <br/>
+- **Kotlin** <br/>
 Add the image resource ids. The number of ids added represents the number of steps in the view. The order of the IDs added, represents the order of the steps in View
 ````
-imageSteps.addSteps(
+imageSteps.setSteps(
   R.drawable.ic_welcome,
   R.drawable.icon_users,
   R.drawable.ic_check)
 ````
-  <t/>The view contains two methods for moving the steps <br/>
+  <t/>The view contains two methods for moving the steps <br/><br/>
 ``
-imageSteps.nextStep() 
+imageSteps.next()
 ``
 <br/>
 ``
-imageSteps.previousStep() 
+imageSteps.previous()
 ``
 
-## Authors
+Or can be used with ViewPager. In this case, it not necessary the use of the methods `next()` and `previous()`
+
+- **With ViewPager**
+
+`
+imageSteps.setupWithViewPager(viewpager)
+`
+
+You can add a listener for listen the page changes in viewpager
+
+ imageSteps.setOnViewPagerChangeListener(object : ImageSteps.OnViewPagerChangeListener {
+             override fun onViewPagerPageScrollStateChanged(state: Int) {
+             }
+ 
+             override fun onViewPagerPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+             }
+ 
+             override fun onViewPagerPageSelected(position: Int) {
+                 handlePageChanged(position)
+             }
+ 
+         })
+
+
+## Author
 
 * **Denis Viana** -  [denisviana](https://github.com/denisviana)

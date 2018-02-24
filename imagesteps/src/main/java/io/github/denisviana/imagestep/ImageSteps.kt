@@ -22,7 +22,7 @@ import android.widget.RelativeLayout
 */
 class ImageSteps: RelativeLayout {
 
-    private var rootView : LinearLayout? = null
+    private var root: LinearLayout? = null
     private var stepsImages : MutableList<Int> = mutableListOf()
     private var stepNumber: Int = 0
     private var selectedStep: Int = 0
@@ -40,7 +40,6 @@ class ImageSteps: RelativeLayout {
 
     private val START_STEP = 0
 
-
     constructor(context: Context?) : super(context){
         init()
     }
@@ -57,8 +56,8 @@ class ImageSteps: RelativeLayout {
 
 
     private fun init(){
-        View.inflate(context,R.layout.main_view,this)
-        rootView = findViewById(R.id.ll_main_view)
+        View.inflate(context,R.layout.main,this)
+        root = findViewById(R.id.ll_main_view)
     }
 
     private fun handlAttributes(attrs: AttributeSet?){
@@ -76,7 +75,7 @@ class ImageSteps: RelativeLayout {
     }
 
     private fun addView(tag : Int, isFirstStep : Boolean, isLastStep : Boolean){
-        var view = LayoutInflater.from(context).inflate(R.layout.step_view,rootView,false)
+        var view = LayoutInflater.from(context).inflate(R.layout.step, root,false)
         val params = LinearLayout.LayoutParams(stepSize,stepSize)
 
         if(isFirstStep)
@@ -95,12 +94,12 @@ class ImageSteps: RelativeLayout {
         setStepColorStatus(view)
 
         //view.findViewById<ImageView>(R.id.iv_main_step_image).setImageResource(drawableResource)
-        rootView?.addView(view)
+        root?.addView(view)
 
         if(!isLastStep){
-            view = LayoutInflater.from(context).inflate(R.layout.split_view,rootView,false)
+            view = LayoutInflater.from(context).inflate(R.layout.line, root,false)
             view.setBackgroundColor(defaultColor)
-            rootView?.addView(view)
+            root?.addView(view)
         }
 
     }
@@ -110,25 +109,23 @@ class ImageSteps: RelativeLayout {
         gd.setColor(defaultColor)
     }
 
-    fun addSteps(@DrawableRes vararg drawableResources: Int) {
-        // add steps to main view
+    fun setSteps(@DrawableRes vararg drawableResources: Int) {
         for (drawableId in drawableResources) {
             stepsImages.add(drawableId)
             addView(stepNumber, stepNumber == 0, drawableResources.size - 1 == stepNumber)
             stepNumber++
         }
-        //get to the 1st step
         goToStep(START_STEP)
     }
 
-    fun nextStep() {
+    fun next() {
         if (stepsImages.lastIndex == selectedStep || hasViewPager) return
         selectedStep++
         goToStep(selectedStep)
     }
 
 
-    fun previousStep() {
+    fun previous() {
         if (selectedStep == START_STEP || hasViewPager) return
         selectedStep--
         goToStep(selectedStep)
@@ -137,15 +134,15 @@ class ImageSteps: RelativeLayout {
 
     private fun goToStep(stepNumber: Int) {
 
-        val stepView = rootView?.findViewWithTag<ImageView>(stepNumber)
+        val stepView = root?.findViewWithTag<ImageView>(stepNumber)
 
         for (i in START_STEP until stepsImages.lastIndex) {
-            rootView?.findViewWithTag<ImageView>(i)?.setBackgroundResource(R.drawable.circle_step_view)
-            setStepColorStatus(rootView?.findViewWithTag(i)!!)
+            root?.findViewWithTag<ImageView>(i)?.setBackgroundResource(R.drawable.circle_step_view)
+            setStepColorStatus(root?.findViewWithTag(i)!!)
         }
 
         stepView?.setBackgroundResource(R.drawable.circle_step_view)
-        setStepColorStatus(rootView?.findViewWithTag(stepNumber)!!)
+        setStepColorStatus(root?.findViewWithTag(stepNumber)!!)
 
         selectedStep = stepNumber
 
@@ -160,7 +157,7 @@ class ImageSteps: RelativeLayout {
         scaleUp.start()
 
         if(stepNumber > START_STEP){
-            val previousView = rootView?.findViewWithTag<ImageView>(stepNumber-1)
+            val previousView = root?.findViewWithTag<ImageView>(stepNumber-1)
             previousView?.setImageDrawable(null)
             val scaleDownX = ObjectAnimator.ofFloat(previousView, "scaleX", 1.0f)
             val scaleDownY = ObjectAnimator.ofFloat(previousView, "scaleY", 1.0f)
@@ -172,7 +169,7 @@ class ImageSteps: RelativeLayout {
         }
 
         if(stepNumber < stepsImages.lastIndex){
-            val nextView = rootView?.findViewWithTag<ImageView>(stepNumber+1)
+            val nextView = root?.findViewWithTag<ImageView>(stepNumber+1)
             nextView?.setImageDrawable(null)
             val scaleDownX = ObjectAnimator.ofFloat(nextView, "scaleX", 1.0f)
             val scaleDownY = ObjectAnimator.ofFloat(nextView, "scaleY", 1.0f)
@@ -227,7 +224,7 @@ class ImageSteps: RelativeLayout {
         })
     }
 
-    fun setOnViewPagerChangeListener(listener : OnViewPagerChangeListener){
+    fun addOnViewPagerChangeListener(listener : OnViewPagerChangeListener){
         this.onPageListener = listener
     }
 

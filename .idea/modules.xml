@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Image-Steps.iml" filepath="$PROJECT_DIR$/Image-Steps.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://C:\Users\Denis Viana\Documents\GitHub\ImageSteps\imagesteps\imagestep.iml" filepath="C:\Users\Denis Viana\Documents\GitHub\ImageSteps\imagesteps\imagestep.iml" />
       <module fileurl="file://$PROJECT_DIR$/imagesteps/imagesteps.iml" filepath="$PROJECT_DIR$/imagesteps/imagesteps.iml" />
     </modules>
   </component>

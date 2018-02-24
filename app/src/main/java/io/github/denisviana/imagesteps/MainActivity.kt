@@ -2,7 +2,6 @@ package io.github.denisviana.imagesteps
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import io.github.denisviana.imagestep.ImageSteps
 import kotlinx.android.synthetic.main.main_activity.*
 
 /**
@@ -17,13 +16,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
 
-        imageSteps.addSteps(R.drawable.ic_welcome,R.drawable.icon_users,R.drawable.ic_check)
+        imageSteps.setSteps(R.drawable.ic_welcome,R.drawable.icon_users,R.drawable.ic_check)
         imageSteps.scaleUp = 2.0f
         imageSteps.animationDuration = 500
 
 
-        previous.setOnClickListener { imageSteps.previousStep() }
-        next.setOnClickListener { imageSteps.nextStep() }
+        previous.setOnClickListener { imageSteps.previous() }
+        next.setOnClickListener { imageSteps.next() }
     }
 
 }
