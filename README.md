@@ -45,7 +45,7 @@ imageSteps.setupWithViewPager(viewpager)
 `
 
 You can add a listener for listen the page changes in viewpager
-
+````
  imageSteps.setOnViewPagerChangeListener(object : ImageSteps.OnViewPagerChangeListener {
              override fun onViewPagerPageScrollStateChanged(state: Int) {
              }
@@ -58,6 +58,7 @@ You can add a listener for listen the page changes in viewpager
              }
  
          })
+````
 
 
 ## Author
