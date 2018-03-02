@@ -1,3 +1,5 @@
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Image%20Steps-green.svg?style=flat )]( https://android-arsenal.com/details/1/6788 )
+
 # Image-Steps
 A simple library for using steps with images and animation
 
@@ -64,3 +66,8 @@ You can add a listener for listen the page changes in viewpager
 ## Author
 
 * **Denis Viana** -  [denisviana](https://github.com/denisviana)
+
+## Video tutorial
+https://youtu.be/OA_NNqhVxVY 
+
+
