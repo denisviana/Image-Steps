@@ -3,6 +3,10 @@
 # Image-Steps
 A simple library for using steps with images and animation
 
+Based on [StepView](https://github.com/shuhart/StepView)
+
+<br/>
+
 ![Alt Text](https://media.giphy.com/media/3kJQDzduX5CMXGv3CG/giphy.gif)
 
 ## Instalation
