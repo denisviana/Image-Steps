@@ -11,6 +11,8 @@ Based on [StepView](https://github.com/shuhart/StepView)
 
 ## Instalation
 
+- minSdkVersion - 17 <br/>
+
 - Dependencie <br/>
 ``
 compile 'com.github.denisviana:Image-Steps:1.0.5'
