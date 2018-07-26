@@ -13,7 +13,7 @@ Based on [StepView](https://github.com/shuhart/StepView)
 
 - Dependencie <br/>
 ``
-compile 'com.github.denisviana:Image-Steps:1.0.4'
+compile 'com.github.denisviana:Image-Steps:1.0.5'
 ``
 <br/><br/>
 - **Xml** <br/>
@@ -70,6 +70,10 @@ You can add a listener for listen the page changes in viewpager
 ## Author
 
 * **Denis Viana** -  [denisviana](https://github.com/denisviana)
+
+## Contributors
+
+[daisho-wakazashi](https://github.com/daisho-wakazashi)
 
 ## Video tutorial
 https://youtu.be/OA_NNqhVxVY 
